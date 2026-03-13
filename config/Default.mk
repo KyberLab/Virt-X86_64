@@ -15,7 +15,7 @@ BUILD_TYPE_NUM				?= 3
 BUILD_TYPE_STR				?= test
 BUILD_VARIANT				?= Community
 
-IMAGE_BUILD_LIST			?= Linux BusyBox BuildRoot Ubuntu KyberEmu
+IMAGE_BUILD_LIST			?= Linux BuildRoot Ubuntu KyberEmu
 IMAGE_DEPEND_LIST			?= 
 
 
