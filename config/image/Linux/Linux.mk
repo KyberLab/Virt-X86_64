@@ -19,7 +19,7 @@ IMAGE_FETCH_REF				:= $(IMAGE_LINUX_REF)
 IMAGE_PATCH_OPTS			:= 
 
 # (Required) Config options
-IMAGE_CONFIG_OPTS			:= kyberlab_defconfig
+IMAGE_CONFIG_OPTS			:= x86_64_defconfig
 
 
 # (Optional) Build options
@@ -27,7 +27,7 @@ IMAGE_BUILD_OPTS			:=
 
 # (Optional) Install options
 IMAGE_INSTALL_OPTS			:= 
-IMAGE_INSTALL_LIST			:= build/arch/arm64/boot/Image:Linux.bin output:$(IMAGE_BUILD_GOAL)
+IMAGE_INSTALL_LIST			:= build/arch/x86_64/boot/bzImage:Linux.bin output:$(IMAGE_BUILD_GOAL)
 
 # (Optional) Package options
 IMAGE_PACKAGE_OPTS			:= 
@@ -44,8 +44,7 @@ IMAGE_DISTCLEAN_OPTS		:=
 ###############################################################################
 # Image Build Variables (Optional)
 
-IMAGE_EXPORT_ENV			+= ARCH=arm64
-IMAGE_EXPORT_ENV			+= CROSS_COMPILE=aarch64-none-elf-
+IMAGE_EXPORT_ENV				+= ARCH=x86_64
 
 
 

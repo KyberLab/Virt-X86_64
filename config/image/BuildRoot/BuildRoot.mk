@@ -18,7 +18,7 @@ IMAGE_FETCH_REF				:= $(IMAGE_BUILDROOT_REF)
 IMAGE_PATCH_OPTS			:= 
 
 # (Required) Config options
-IMAGE_CONFIG_OPTS			:= qemu_aarch64_virt_defconfig
+IMAGE_CONFIG_OPTS			:= qemu_x86_64_virt_defconfig
 
 # (Optional) Build options
 IMAGE_BUILD_OPTS			:= 

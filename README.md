@@ -1,10 +1,10 @@
-# KyberLab Virt-AArch64
+# KyberLab Virt-X86_64
 
 [中文版本](README_zh.md) | English Version
 
 ## Project Overview
 
-KyberLab Virt-AArch64 is a virtual development platform for AArch64 architecture:
+KyberLab Virt-X86_64 is a virtual development platform for X86_64 architecture:
 * Simplify Makefile rule writing through KyberRules' Makefile macros;
 * Build containerized development environments through KyberBench to ensure development environment consistency;
 * Solidify image building methods and steps through KyberImage's image building methods;
@@ -38,8 +38,8 @@ Ensure the following dependencies are installed:
 ### 2. Clone Repository
 
 ```bash
-git clone https://github.com/KyberLab/Virt-AArch64.git
-cd Virt-AArch64
+git clone https://github.com/KyberLab/Virt-X86_64.git
+cd Virt-X86_64
 git submodule update --init --recursive
 ```
 
@@ -49,11 +49,11 @@ git submodule update --init --recursive
 # Build Dockpin virtual workbench image, supported container images are directory names under bench/image/Dockpin/Dockerfile directory
 make build_dockpin
 
-# Build Virt-AArch64 virtual workbench image
-make build_virt-aarch64
+# Build Virt-X86_64 virtual workbench image
+make build_virt-x86_64
 
-# Start Virt-AArch64 virtual workbench environment and enter interactive shell
-make run_virt-aarch64
+# Start Virt-X86_64 virtual workbench environment and enter interactive shell
+make run_virt-x86_64
 ```
 
 ### 4. Build System Image
@@ -82,7 +82,7 @@ make run QEMU_BOOT_IMAGE=BuildRoot
 ## Directory Structure
 
 ```
-KyberLab Virt-AArch64/
+KyberLab Virt-X86_64/
 ├── bench/           # Virtual workbench environment
 │   ├── image/       # Workbench image configurations
 │   ├── rules/       # Build rules and utilities

@@ -9,13 +9,13 @@
 # Build Config
 
 BUILD_PLATFORM				:= qemu
-BUILD_BOARD					:= virt-aarch64
+BUILD_BOARD					:= virt-x86_64
 
 BUILD_TYPE_NUM				?= 3
 BUILD_TYPE_STR				?= test
 BUILD_VARIANT				?= Community
 
-IMAGE_BUILD_LIST			?= U-Boot Linux BusyBox BuildRoot Ubuntu KyberEmu
+IMAGE_BUILD_LIST			?= Linux BusyBox BuildRoot Ubuntu KyberEmu
 IMAGE_DEPEND_LIST			?= 
 
 

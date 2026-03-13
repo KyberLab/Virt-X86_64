@@ -1,10 +1,10 @@
-# KyberLab Virt-AArch64
+# KyberLab Virt-X86_64
 
 [English Version](README.md) | 中文版本
 
 ## 项目简介
 
-KyberLab Virt-AArch64 是一个 AArch64 架构的虚拟开发平台：
+KyberLab Virt-X86_64 是一个 X86_64 架构的虚拟开发平台：
 * 通过 KyberRules 提供的Makefile宏，简化Makefile规则的编写；
 * 通过 KyberBench 构建基于容器化的开发环境，保证开发环境的一致性；
 * 通过 KyberImage 提供的镜像构建方法，固化镜像构建的方法和步骤；
@@ -41,8 +41,8 @@ KyberLab Virt-AArch64 是一个 AArch64 架构的虚拟开发平台：
 ### 2. 克隆仓库
 
 ```bash
-git clone https://github.com/KyberLab/Virt-AArch64.git
-cd Virt-AArch64
+git clone https://github.com/KyberLab/Virt-X86_64.git
+cd Virt-X86_64
 git submodule update --init --recursive
 ```
 
@@ -52,11 +52,11 @@ git submodule update --init --recursive
 # 构建Dockpin虚拟工作台镜像，支持的容器镜像为 bench/image/Dockpin/Dockerfile 目录下的目录名
 make build_dockpin
 
-# 构建Virt-AArch64虚拟工作台镜像
-make build_virt-aarch64
+# 构建Virt-X86_64虚拟工作台镜像
+make build_virt-x86_64
 
-# 启动Virt-AArch64虚拟工作台环境，并进入交互式Shell
-make run_virt-aarch64
+# 启动Virt-X86_64虚拟工作台环境，并进入交互式Shell
+make run_virt-x86_64
 ```
 
 ### 4. 构建系统镜像
@@ -85,7 +85,7 @@ make run QEMU_BOOT_IMAGE=BuildRoot
 ## 目录结构
 
 ```
-KyberLab Virt-AArch64/
+KyberLab Virt-X86_64/
 ├── bench/           # 虚拟工作台环境
 │   ├── image/       # 工作台镜像配置
 │   ├── rules/       # 构建规则和工具
