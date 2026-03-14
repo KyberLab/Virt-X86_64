@@ -8,5 +8,6 @@
 IMAGE_BOOT_BIN				:= $(OUTPUT_ROOT_PATH)/Linux.bin
 
 IMAGE_RUN_ARGS				+= \
-	-kernel $(IMAGE_BOOT_BIN)
+	-kernel $(IMAGE_BOOT_BIN) \
+	-append "console=ttyS0 root=/dev/vda rw init=/bin/sh"
 

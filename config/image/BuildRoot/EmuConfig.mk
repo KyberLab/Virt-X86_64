@@ -5,19 +5,12 @@
 
 
 
-#QEMU_STORAGE_TYPE			:= none
-#QEMU_NETWORK_TYPE			:= none
-
-
 IMAGE_BOOT_BIN				:= $(OUTPUT_ROOT_PATH)/BuildRoot-Kernel.bin
 
 IMAGE_RUN_ARGS				+= \
 	-kernel $(IMAGE_BOOT_BIN) \
+	-append "console=ttyS0 root=/dev/vda rw init=/bin/sh" \
 	-drive file=$(OUTPUT_ROOT_PATH)/BuildRoot-RootFS.ext2,if=none,format=raw,id=buildroot \
-	-device virtio-blk-device,drive=buildroot \
-	-append "rootwait root=/dev/vdd loglevel=8"
-#	-append "rootwait root=/dev/vda console=ttyAMA3 loglevel=8"
+	-device virtio-blk,drive=buildroot
 
 
-# qemu-system-aarch64 -M virt -cpu cortex-a53 -nographic -smp 1 -kernel Image -append "rootwait root=/dev/vda console=ttyAMA0" -netdev user,id=eth0 -device virtio-net-device,netdev=eth0 -drive file=rootfs.ext2,if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0
-# qemu-system-x86_64 -M virt -cpu kvm64 -nographic -smp 1 -kernel Image -append "rootwait root=/dev/vda console=ttyS0" -netdev user,id=eth0 -device virtio-net-device,netdev=eth0 -drive file=rootfs.ext2,if=none,format=raw,id=hd0 -device virtio-blk-device,drive=hd0
