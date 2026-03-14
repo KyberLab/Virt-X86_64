@@ -11,8 +11,8 @@ IMAGE_BUILD_TYPE			:= AutoMake
 # (Required) Fetch options
 #IMAGE_FETCH_METHOD			:= 
 IMAGE_FETCH_OPTS			:= 
-IMAGE_FETCH_URL				:= 
-IMAGE_FETCH_REF				:= 
+IMAGE_FETCH_URL				:= $(IMAGE_QEMU_URL)
+IMAGE_FETCH_REF				:= $(IMAGE_QEMU_REF)
 
 # (Optional) Patch options
 #IMAGE_PATCH_METHOD			:= 
@@ -43,7 +43,6 @@ IMAGE_CONFIG_OPTS			:= \
 		--enable-cap-ng \
 		--enable-opengl \
 		--enable-virglrenderer \
-		--enable-vfio-user-server \
 		--enable-vhost-kernel \
 		--enable-vhost-user \
 		--enable-vhost-net \

@@ -18,18 +18,18 @@ IMAGE_FETCH_REF				:= $(IMAGE_BUILDROOT_REF)
 IMAGE_PATCH_OPTS			:= 
 
 # (Required) Config options
-IMAGE_CONFIG_OPTS			:= qemu_x86_64_virt_defconfig
+IMAGE_CONFIG_OPTS			:= qemu_x86_64_defconfig
 
 # (Optional) Build options
 IMAGE_BUILD_OPTS			:= 
 
 # (Required) Install options
 IMAGE_INSTALL_OPTS			:= 
-IMAGE_INSTALL_LIST			:= output/images/Image:BuildRoot-Kernel.bin output/images/rootfs.ext4:BuildRoot-RootFS.ext4
+IMAGE_INSTALL_LIST			:= output/images/bzImage:BuildRoot-Kernel.bin output/images/rootfs.ext2:BuildRoot-RootFS.ext2
 
 # (Required) Package options
 IMAGE_PACKAGE_OPTS			:= 
-IMAGE_PACKAGE_LIST			:= BuildRoot-Kernel.bin BuildRoot-RootFS.ext4
+IMAGE_PACKAGE_LIST			:= BuildRoot-Kernel.bin BuildRoot-RootFS.ext2
 
 # (Optional) Clean options
 IMAGE_CLEAN_OPTS			:= 
