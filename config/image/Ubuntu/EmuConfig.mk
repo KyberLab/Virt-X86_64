@@ -15,7 +15,7 @@ IMAGE_PRE_RUN				+= && sudo chmod 666 /dev/kvm
 
 IMAGE_UBUNTU_BASE			:= UbuntuBase.qcow2
 IMAGE_UBUNTU_SYSTEM			:= UbuntuSystem.qcow2
-IMAGE_UBUNTU_METADATA		:= UbuntuMetadata.iso
+IMAGE_UBUNTU_METADATA_ISO	:= UbuntuMetadata.iso
 IMAGE_UBUNTU_USERDATA		:= user-data
 IMAGE_UBUNTU_METADATA		:= meta-data
 
@@ -26,7 +26,7 @@ IMAGE_BOOT_BIN				?= $(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_SYSTEM)
 IMAGE_RUN_ARGS				+= \
 	-drive if=pflash,format=raw,readonly=on,file=$(OUTPUT_ROOT_PATH)/OVMF_CODE.fd \
 	-drive if=pflash,format=raw,file=$(OUTPUT_ROOT_PATH)/OVMF_VARS.fd \
-	-cdrom $(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_METADATA) \
+	-cdrom $(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_METADATA_ISO) \
 	-drive file=$(IMAGE_BOOT_BIN),format=qcow2,id=ubuntu,if=none \
 	-device virtio-blk,drive=ubuntu
 
