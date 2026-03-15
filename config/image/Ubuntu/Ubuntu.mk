@@ -58,3 +58,17 @@ IMAGE_EXPORT_ENV			+= IMAGE_UBUNTU_METADATA=$(IMAGE_UBUNTU_METADATA)
 IMAGE_EXPORT_ENV			+= IMAGE_UBUNTU_USERDATA=$(IMAGE_UBUNTU_USERDATA)
 IMAGE_EXPORT_ENV			+= IMAGE_UBUNTU_METADATA=$(IMAGE_UBUNTU_METADATA)
 
+
+
+# sudo apt-get install -y ovmf
+
+# image_postrun_install
+# $(1) install options
+# $(2) config path
+# $(3) build path
+# $(4) install path
+# $(5) install list
+define image_postrun_install
+	$(Q)cp -v /usr/share/OVMF/OVMF_{CODE,VARS}.fd $(4)
+endef
+

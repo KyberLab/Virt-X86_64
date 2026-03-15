@@ -24,11 +24,11 @@ IMAGE_BOOT_BIN				?= $(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_SYSTEM)
 
 
 IMAGE_RUN_ARGS				+= \
+	-drive if=pflash,format=raw,readonly=on,file=$(OUTPUT_ROOT_PATH)/OVMF_CODE.fd \
+	-drive if=pflash,format=raw,file=$(OUTPUT_ROOT_PATH)/OVMF_VARS.fd \
 	-cdrom $(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_METADATA) \
 	-drive file=$(IMAGE_BOOT_BIN),format=qcow2,id=ubuntu,if=none \
 	-device virtio-blk,drive=ubuntu
 
-#	-drive if=pflash,format=raw,readonly=on,file=$(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_UEFI_CODE)
-#	-drive if=pflash,format=raw,file=$(OUTPUT_ROOT_PATH)/$(IMAGE_UBUNTU_UEFI_DATA)
 # 	-device virtio-blk,drive=ubuntu,bus=pcie.0,addr=0x01
 
