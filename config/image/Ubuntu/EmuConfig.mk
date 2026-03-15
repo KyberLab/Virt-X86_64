@@ -8,9 +8,9 @@
 IMAGE_PRE_RUN				+= && sudo chmod 666 /dev/kvm
 
 
-IMAGE_UBUNTU_UEFI_FW		:= QEMU_EFI.fd
-IMAGE_UBUNTU_UEFI_CODE		:= UbuntuPFlash0.img
-IMAGE_UBUNTU_UEFI_DATA		:= UbuntuPFlash1.img
+#IMAGE_UBUNTU_UEFI_FW		:= QEMU_EFI.fd
+#IMAGE_UBUNTU_UEFI_CODE		:= UbuntuPFlash0.img
+#IMAGE_UBUNTU_UEFI_DATA		:= UbuntuPFlash1.img
 
 
 IMAGE_UBUNTU_BASE			:= UbuntuBase.qcow2
