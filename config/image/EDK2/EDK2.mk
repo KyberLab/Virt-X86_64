@@ -5,14 +5,17 @@
 
 
 
+$(eval $(call rule_inc,$(CONFIG_IMAGE_PATH)/$(IMAGE_BUILD_GOAL)/EmuConfig.mk))
+
+
 # (Required) Build type
 IMAGE_BUILD_TYPE			:= Custom
 
 # (Required) Fetch options
 #IMAGE_FETCH_METHOD			:= 
 IMAGE_FETCH_OPTS			:= 
-IMAGE_FETCH_URL				:= $(REPO_URL_GIT_BASE)/xen.git
-IMAGE_FETCH_REF				:= stable-4.18
+IMAGE_FETCH_URL				:= $(REPO_URL_GIT_BASE)/edk2.git
+IMAGE_FETCH_REF				:= edk2-stable202602
 
 # (Optional) Patch options
 #IMAGE_PATCH_METHOD			:= 
@@ -29,12 +32,13 @@ IMAGE_BUILD_OPTS			:=
 # (Optional) Install options
 #IMAGE_INSTALL_METHOD		:= 
 IMAGE_INSTALL_OPTS			:= 
-IMAGE_INSTALL_LIST			:= 
+IMAGE_INSTALL_LIST			:= Build/OvmfX64/RELEASE_GCC5/FV/OVMF_CODE.fd:$(IMAGE_EDK2_UEFI_CODE)
+IMAGE_INSTALL_LIST			+= Build/OvmfX64/RELEASE_GCC5/FV/OVMF_VARS.fd:$(IMAGE_EDK2_UEFI_VARS)
 
 # (Optional) Package options
 #IMAGE_PACKAGE_METHOD		:= 
 IMAGE_PACKAGE_OPTS			:= 
-IMAGE_PACKAGE_LIST			:= 
+IMAGE_PACKAGE_LIST			:= $(IMAGE_EDK2_UEFI_CODE) $(IMAGE_EDK2_UEFI_VARS) $(IMAGE_EDK2_UEFI_PFLASH0) $(IMAGE_EDK2_UEFI_PFLASH1)
 
 # (Optional) Clean options
 #IMAGE_CLEAN_METHOD			:= 
@@ -74,6 +78,32 @@ define image_custom_build
 	$(IQ)$(call xprint_value,	"Build Path",		$(3),$($(BG_PURPLE)))
 	$(IQ)$(call xprint_value,	"Install Path",		$(4),$($(BG_PURPLE)))
 	$(IQ)$(call xprint_line,$(BG_YELLOW))
+	$(IQ)cd $(3) && \
+		source ./edksetup.sh && \
+		export GCC5_X64_PREFIX=/usr/bin/ && \
+		make -C BaseTools && \
+		build -a X64 -t GCC5 -p OvmfPkg/OvmfPkgX64.dsc -b RELEASE -D DISABLE_LTO=TRUE
+endef
+
+
+# image_postrun_install
+# $(1) install options
+# $(2) config path
+# $(3) build path
+# $(4) install path
+# $(5) install list
+define image_postrun_install
+	$(Q)$(call xprint_title,	"Image $(IMAGE_BUILD_GOAL) Post-run Install",$(BG_YELLOW))
+	$(Q)$(call xprint_value,	"Install Options",	$(1),$($(BG_PURPLE)))
+	$(Q)$(call xprint_value,	"Config Path",		$(2),$($(BG_PURPLE)))
+	$(Q)$(call xprint_value,	"Build Path",		$(3),$($(BG_PURPLE)))
+	$(Q)$(call xprint_value,	"Install Path",		$(4),$($(BG_PURPLE)))
+	$(Q)$(call xprint_value,	"Install List",		$(5),$($(BG_PURPLE)))
+	$(Q)$(call xprint_line,$(BG_YELLOW))
+	$(Q)rm -fv $(4)/$(IMAGE_EDK2_UEFI_PFLASH0); dd if=/dev/zero bs=1M count=4 of=$(4)/$(IMAGE_EDK2_UEFI_PFLASH0)
+	$(Q)rm -fv $(4)/$(IMAGE_EDK2_UEFI_PFLASH1); dd if=/dev/zero bs=1M count=4 of=$(4)/$(IMAGE_EDK2_UEFI_PFLASH1)
+	$(Q)dd if=$(4)/$(IMAGE_EDK2_UEFI_CODE) bs=1M of=$(4)/$(IMAGE_EDK2_UEFI_PFLASH0) conv=notrunc
+	$(Q)dd if=$(4)/$(IMAGE_EDK2_UEFI_VARS) bs=1M of=$(4)/$(IMAGE_EDK2_UEFI_PFLASH1) conv=notrunc
 endef
 
 
