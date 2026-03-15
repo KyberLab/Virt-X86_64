@@ -5,6 +5,8 @@
 
 
 
+IMAGE_PRE_RUN				+= && sudo chmod 666 /dev/kvm
+
 IMAGE_BOOT_BIN				:= $(OUTPUT_ROOT_PATH)/Linux.bin
 
 IMAGE_RUN_ARGS				+= \
