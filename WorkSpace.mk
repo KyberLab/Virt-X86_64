@@ -16,7 +16,7 @@ QEMU_CPU_TYPE				?= host
 
 QEMU_BOOT_IMAGE				?= Ubuntu
 QEMU_TERM_TYPE				?= none
-QEMU_STORAGE_TYPE			?= pcie
+#QEMU_STORAGE_TYPE			?= pcie
 QEMU_NETWORK_TYPE			?= none
 QEMU_GRAPHIC_TYPE			?= none
 QEMU_GRAPHIC_ARGS			?= -nographic

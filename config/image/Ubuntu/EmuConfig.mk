@@ -5,6 +5,8 @@
 
 
 
+QEMU_STORAGE_TYPE			:= pcie
+
 IMAGE_PRE_RUN				+= && sudo chmod 666 /dev/kvm
 
 
