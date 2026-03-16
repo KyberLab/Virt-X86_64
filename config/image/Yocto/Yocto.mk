@@ -8,7 +8,8 @@
 $(eval $(call rule_inc,$(CONFIG_IMAGE_PATH)/$(IMAGE_BUILD_GOAL)/EmuConfig.mk))
 
 
-YOCTO_BUILD_IMAGE			?= core-image-sato
+YOCTO_BUILD_TYPE			?= sato
+YOCTO_BUILD_IMAGE			?= core-image-$(YOCTO_BUILD_TYPE)
 YOCTO_BUILD_BRANCH			?= kyberlab/styhead/x86_64
 
 
@@ -88,7 +89,9 @@ endef
 # $(3) build path
 # $(4) install path
 define image_custom_build
-	$(IQ)cd $(3) && . ./oe-init-build-env && bitbake $(if $(1),$(1),$(YOCTO_BUILD_IMAGE))
+	$(IQ)cd $(3) && . ./oe-init-build-env && \
+		bitbake $(if $(1),$(1),$(YOCTO_BUILD_IMAGE)) && \
+		$(if $(1),;,bitbake xen)
 endef
 
 
@@ -99,72 +102,6 @@ endef
 define qemu_image_create
 	$(IQ)qemu-img create -f $(2) $(1) $(3)
 	$(IQ)qemu-img info $(1)
-endef
-
-
-# nbd_dev_init
-# $(1) nbd device file path
-define nbd_dev_init
-	$(IQ)-sudo modprobe nbd max_part=8 > /dev/null 2>&1; exit 0
-	$(IQ)-sudo mknod $(1) b 43 0 > /dev/null 2>&1; exit 0
-endef
-
-
-# nbd_dev_connect
-# $(1) nbd device file path
-# $(2) qemu image file path
-define nbd_dev_connect 
-	$(IQ)sudo bash -c "export PATH=$${PATH}; qemu-nbd --connect=$(1) $(2)"
-endef
-
-
-# nbd_dev_disconnect
-# $(1) nbd device file path
-define nbd_dev_disconnect
-	$(IQ)-sudo bash -c "export PATH=$${PATH}; qemu-nbd --disconnect $(1)"
-endef
-
-
-# nbd_dev_part
-# $(1) nbd device file path
-# $(2) disk partition table
-define nbd_dev_part
-	$(IQ)sudo sgdisk $(1) --zap-all --clear --mbrtogpt
-	$(IQ)sudo sgdisk $(1) $(2)
-	$(IQ)sudo sgdisk $(1) -p
-endef
-
-
-# nbd_dev_part_mknode
-# $(1) nbd device file name
-define nbd_dev_part_mknode
-	$(IQ)-lsblk | tr -d "├─" | awk '$$1~"$(1)p" {print "sudo mknod /dev/" $$1 " b " $$2}' | tr : " " | xargs -i bash -c {}
-endef
-
-
-# nbd_dev_part_rmnode
-# $(1) nbd device file name
-define nbd_dev_part_rmnode
-	$(IQ)-lsblk | tr -d "├─" | awk '$$1~"$(1)p" {print "sudo rm -fv /dev/" $$1}' | tr : " " | xargs -i bash -c {}
-endef
-
-
-# nbd_dev_format
-# $(1) nbd device file path
-# $(2) nbd device file name
-# $(3) partition index
-# $(4) partition type
-# $(5) partition options
-define nbd_dev_format
-	$(IQ)sudo mkfs.$(4) $(5) $(1)p$(3)
-endef
-
-
-# nbd_dev_part_print
-# $(1) nbd device file path
-# $(2) nbd device file name
-define nbd_dev_part_print
-	$(IQ)sudo sgdisk $(1) -p
 endef
 
 
@@ -235,18 +172,19 @@ define yocto_image_create
 		df -hT | grep nbd && \
 		sudo cp -v $(7)/build/tmp/deploy/images/qemux86-64/bzImage /mnt/boot/bzImage && \
 		sudo cp -v $(7)/build/tmp/deploy/images/qemux86-64/bzImage-initramfs-qemux86-64.bin /mnt/boot/initramfs.bin && \
-		sudo tar xvf $(7)/build/tmp/deploy/images/qemux86-64/core-image-sato-qemux86-64.rootfs.tar.bz2 -C /mnt/sato && \
-		sudo cp -v /mnt/boot/* /mnt/sato/boot/ && \
-		sudo grub-install --target=x86_64-efi --recheck --efi-directory="/mnt/boot" --boot-directory="/mnt/sato/boot" && \
+		sudo cp -v $(7)/build/tmp/deploy/images/qemux86-64/xen-qemux86-64.efi /mnt/boot/xen-qemux86-64.efi && \
+		sudo tar xvf $(7)/build/tmp/deploy/images/qemux86-64/core-image-$(YOCTO_BUILD_TYPE)-qemux86-64.rootfs.tar.bz2 -C /mnt/$(YOCTO_BUILD_TYPE) && \
+		sudo cp -v /mnt/boot/* /mnt/$(YOCTO_BUILD_TYPE)/boot/ && \
+		sudo grub-install --target=x86_64-efi --recheck --efi-directory="/mnt/boot" --boot-directory="/mnt/$(YOCTO_BUILD_TYPE)/boot" && \
 		sudo cat $(7)/grub.cfg | sudo tee -a /mnt/boot/EFI/ubuntu/grub.cfg > /dev/null
-		sudo cp $(7)/init.sh /mnt/sato/init.sh && sudo chmod 755 /mnt/sato/init.sh && \
+		sudo cp $(7)/init.sh /mnt/$(YOCTO_BUILD_TYPE)/init.sh && sudo chmod 755 /mnt/$(YOCTO_BUILD_TYPE)/init.sh && \
+		sudo echo "/dev/vda2" | sudo tee -a /mnt/sato/etc/udev/mount.blacklist && \
 		sudo umount /mnt/{boot,mini,sato,data}
 	$(IQ)$(call nbd_dev_part_print,$(5),$(6))
 	$(IQ)$(call nbd_dev_part_rmnode,$(6))
 	$(IQ)$(call nbd_dev_disconnect,$(5))
 endef
 
-#		sudo echo "/dev/vda2" >> /mnt/sato/etc/udev/mount.blacklist && \
 
 
 YOCTO_PART_TABLE				:= \

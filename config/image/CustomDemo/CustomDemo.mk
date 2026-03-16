@@ -98,7 +98,7 @@ define image_custom_config
 endef
 
 
-# image_prerun_build
+# image_custom_build
 # $(1) build options
 # $(2) config path
 # $(3) build path
