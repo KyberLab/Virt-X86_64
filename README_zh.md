@@ -86,11 +86,14 @@ make emu_buildroot
 
 ```
 KyberLab Virt-X86_64/
-├── bench/           # 虚拟工作台环境
+├── bench/           # 虚拟工作台环境（子模块：KyberBench）
 │   ├── image/       # 工作台镜像配置
 │   ├── rules/       # 构建规则和工具
 │   └── *.mk         # 工作台构建和运行脚本
-├── config/          # 配置目录
+├── config/          # 配置目录（子模块：KyberConfig-Virt-X86_64）
+│   ├── Default.mk   # 默认构建配置
+│   ├── Network.mk   # 网络和仓库 URL 配置
+│   ├── Repo.mk      # 源码仓库引用配置
 │   └── image/       # 构建目标（Goal）配置
 │       ├── BuildRoot/  # BuildRoot 配置
 │       ├── BusyBox/    # BusyBox 配置
@@ -98,7 +101,7 @@ KyberLab Virt-X86_64/
 │       ├── Linux/      # Linux 配置
 │       ├── U-Boot/     # U-Boot 配置
 │       └── Ubuntu/     # Ubuntu 配置
-├── image/           # 镜像构建目录
+├── image/           # 镜像构建目录（子模块：KyberImage）
 │   ├── goal/        # 构建目标
 │   ├── method/      # 构建方法（Method）配置
 │   ├── scripts/     # 构建脚本
@@ -111,6 +114,16 @@ KyberLab Virt-X86_64/
 ├── README.md        # 英文项目说明
 └── README_zh.md     # 中文项目说明
 ```
+
+## 子模块
+
+本项目使用 Git 子模块来组织组件：
+
+| 子模块 | 路径 | 仓库 | 描述 |
+|--------|------|------|------|
+| KyberBench | `bench/` | ../KyberBench.git | 虚拟工作台环境 |
+| KyberImage | `image/` | ../KyberImage.git | 镜像构建框架 |
+| KyberConfig-Virt-X86_64 | `config/` | ../KyberConfig-Virt-X86_64.git | 构建配置 |
 
 ## 基本概念
 
@@ -179,6 +192,8 @@ KyberLab Virt-X86_64/
 - **Linux**：Linux 配置；
 - **U-Boot**：U-Boot 配置；
 - **Ubuntu**：Ubuntu 系统配置。
+
+有关更多配置详情，请参阅 [config 文档](config/README_zh.md)。
 
 
 ### 构建方法

@@ -83,11 +83,14 @@ make emu_buildroot
 
 ```
 KyberLab Virt-X86_64/
-├── bench/           # Virtual workbench environment
+├── bench/           # Virtual workbench environment (submodule: KyberBench)
 │   ├── image/       # Workbench image configurations
 │   ├── rules/       # Build rules and utilities
 │   └── *.mk         # Workbench build and run scripts
-├── config/          # Configuration directory
+├── config/          # Configuration directory (submodule: KyberConfig-Virt-X86_64)
+│   ├── Default.mk   # Default build configuration
+│   ├── Network.mk   # Network and repository URL configuration
+│   ├── Repo.mk      # Source code repository references
 │   └── image/       # Build goal configurations
 │       ├── BuildRoot/  # BuildRoot configuration
 │       ├── BusyBox/    # BusyBox configuration
@@ -95,7 +98,7 @@ KyberLab Virt-X86_64/
 │       ├── Linux/      # Linux configuration
 │       ├── U-Boot/     # U-Boot configuration
 │       └── Ubuntu/     # Ubuntu configuration
-├── image/           # Image building directory
+├── image/           # Image building directory (submodule: KyberImage)
 │   ├── goal/        # Build goals
 │   ├── method/      # Build method configurations
 │   ├── scripts/     # Build scripts
@@ -108,6 +111,16 @@ KyberLab Virt-X86_64/
 ├── README.md        # English project documentation
 └── README_zh.md     # Chinese project documentation
 ```
+
+## Submodules
+
+This project uses Git submodules to organize components:
+
+| Submodule | Path | Repository | Description |
+|-----------|------|------------|-------------|
+| KyberBench | `bench/` | ../KyberBench.git | Virtual workbench environment |
+| KyberImage | `image/` | ../KyberImage.git | Image building framework |
+| KyberConfig-Virt-X86_64 | `config/` | ../KyberConfig-Virt-X86_64.git | Build configuration |
 
 ## Basic Concepts
 
@@ -175,6 +188,8 @@ The project supports multiple image builds, located in the `config/image/` direc
 - **Linux**: Linux configuration;
 - **U-Boot**: U-Boot configuration;
 - **Ubuntu**: Ubuntu system configuration.
+
+For more details on configuration, see the [config documentation](config/README.md).
 
 ### Build Methods
 
