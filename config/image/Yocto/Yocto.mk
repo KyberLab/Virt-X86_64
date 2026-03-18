@@ -91,7 +91,7 @@ endef
 define image_custom_build
 	$(IQ)cd $(3) && . ./oe-init-build-env && \
 		bitbake $(if $(1),$(1),$(YOCTO_BUILD_IMAGE)) && \
-		$(if $(1),;,bitbake xen)
+		$(if $(1),exit 0,bitbake xen)
 endef
 
 
