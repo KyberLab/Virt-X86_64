@@ -6,4 +6,4 @@
 	url = ../KyberImage.git
 [submodule "config"]
 	path = config
-	url = ../KyberConfig-Virt-X86_64.git
+	url = ../KyberConfig.git
